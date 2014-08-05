@@ -2,6 +2,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'json'
 require 'redis'
+require './settings'
 
 post '/' do
   body = request.body.read

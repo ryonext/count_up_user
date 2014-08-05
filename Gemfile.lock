@@ -9,6 +9,7 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     redis (3.0.7)
+    settingslogic (2.0.9)
     sinatra (1.4.5)
       rack (~> 1.4)
       rack-protection (~> 1.4)
@@ -27,5 +28,6 @@ PLATFORMS
 
 DEPENDENCIES
   redis
+  settingslogic
   sinatra
   sinatra-contrib

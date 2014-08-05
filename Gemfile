@@ -1,8 +1,9 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem "sinatra", require: 'sinatra/base'
-gem "redis"
+gem 'redis'
+gem 'settingslogic'
+gem 'sinatra', require: 'sinatra/base'
 
 group :development do
   gem "sinatra-contrib", require: 'sinatra/reloader'
