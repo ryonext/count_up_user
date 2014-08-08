@@ -1,13 +1,29 @@
-@dir = "./"
+worker_processes 2 # ワーカー数 CPU数 + α で良い
+preload_app true
 
-worker_processes 2 # CPUのコア数に揃える
-working_directory @dir
+listen  '/tmp/unicorn.sock'
+pid     '/tmp/unicorn.pid'
 
-timeout 300
-listen 8000
+stderr_path File.expand_path('log/unicorn.log', "./")
+stdout_path File.expand_path('log/unicorn.log', "./")
 
-pid "#{@dir}tmp/pids/unicorn.pid" #pidを保存するファイル
 
-# unicornは標準出力には何も吐かないのでログ出力を忘れずに
-stderr_path "#{@dir}log/unicorn.stderr.log"
-stdout_path "#{@dir}log/unicorn.stdout.log"
+before_fork do |server, worker|
+#  defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
+
+  # 古いpidが残っていたら消す
+  old_pid = "#{ server.config[:pid] }.oldbin"
+  unless old_pid == server.pid
+    begin
+      Process.kill :QUIT, File.read(old_pid).to_i
+      rescue Errno::ENOENT, Errno::ESRCH
+    end
+  end
+end
+
+after_fork do |server, worker|
+  Signal.trap 'TERM' do
+    puts 'Unicorn worker intercepting TERM and doing nothing. Wait for master to send QUIT'
+  end
+#  defined?(ActiveRecord::Base) and ActiveRecord::Base.establish_connection
+end
