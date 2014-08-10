@@ -1,0 +1,10 @@
+defaults: &defaults
+  redis_host: 'localhost'
+  id_key: 'user_id'
+  post_path: '/launch'
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults

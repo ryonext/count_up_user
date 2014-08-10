@@ -1,5 +1,6 @@
 require 'settingslogic'
 
 class Settings < Settingslogic
-  souce "./application.yml"
+  source "./application.yml"
+  namespace ENV['RACK_ENV']
 end
